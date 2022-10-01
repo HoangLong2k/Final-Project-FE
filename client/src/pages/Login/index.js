@@ -66,7 +66,7 @@ const Login = () => {
           <Form.Item>
             <div className="login-register">
               <div className="login-register-not-user">
-                Bạn chưa có tài khoản
+                Bạn chưa có tài khoản?
               </div>
               <Button type="link" className="login-register-btn">
                 Tạo tài khoản mới

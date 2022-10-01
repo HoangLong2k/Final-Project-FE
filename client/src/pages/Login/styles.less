@@ -48,12 +48,16 @@
   .form-container {
     padding: 36px;
     margin-bottom: 100px;
+    margin: 0 auto;
+    width: 60%;
     min-width: 200px;
-    width: auto;
-    border: 1px solid #ffffff;
+    border: 2px solid #ffffff;
     box-shadow: rgb(192 192 192 / 25%) 0px 0px 16px;
     max-height: 500px;
     border-radius: 8px;
+    @media only screen and (max-width: 1024px) {
+      width: 100%;
+    }
 
     .ant-input {
       border-radius: 6px;

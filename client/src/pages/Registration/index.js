@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "antd";
 
-// import QRCode from "react-qr-code";
-
 import "./styles.less";
 
 const Registration = () => {
