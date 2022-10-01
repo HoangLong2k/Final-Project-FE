@@ -9,7 +9,7 @@ const App = () => {
   const routes = [
     {
       path: RoutePaths.HOME,
-      component: Registration,
+      component: Login,
     },
     {
       path: RoutePaths.LOGIN,
