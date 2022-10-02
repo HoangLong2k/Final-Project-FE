@@ -1,22 +1,28 @@
 import React from "react";
-import { Login } from "./pages";
+import { Login, Registration } from "./pages";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Background from "../public/image/back.png";
 import "./App.less";
+import Header from "./pages/Layout/Header.js";
 
 const RoutePaths = {
   HOME: "/",
   LOGIN: "/login",
+  REGISTRATION: "/registration",
 };
 const App = () => {
   const routes = [
     {
       path: RoutePaths.HOME,
-      component: Login,
+      component: Registration,
     },
     {
       path: RoutePaths.LOGIN,
       component: Login,
+    },
+    {
+      path: RoutePaths.REGISTRATION,
+      component: Registration,
     },
   ];
   return (
@@ -35,7 +41,20 @@ const App = () => {
               <Route
                 key={route.path}
                 path={route.path}
-                element={<route.component />}
+                element={
+                  route.path !== RoutePaths.LOGIN ? (
+                    <>
+                      <div className="App-container">
+                        <Header />
+                        <div className="App-container-body">
+                          <route.component />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <route.component />
+                  )
+                }
               />
             );
           })}

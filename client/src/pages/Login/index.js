@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { Form, Input, Button, Typography } from "antd";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../../public/image/Logo.png";
 import "./styles.less";
 const { Title } = Typography;
@@ -7,6 +8,7 @@ const { Title } = Typography;
 const Login = () => {
   const [form] = Form.useForm();
   const ref = useRef(null);
+  const negative = useNavigate();
 
   const handleClickLogo = () => {
     setTimeout(() => {
@@ -14,6 +16,10 @@ const Login = () => {
     }, 100);
     const pageLogo = document.getElementById("img-logo");
     pageLogo.style.height = "30vh";
+  };
+
+  const handleLogin = () => {
+    negative({ pathname: "/" });
   };
 
   return (
@@ -36,12 +42,12 @@ const Login = () => {
             level={3}
           ></Title>
           <Title style={{ color: "#1890ff", textAlign: "center" }} level={3}>
-            GVHD: Ths Đinh Quốc Hùng
+            GVHD: Ths. Đinh Quốc Hùng
           </Title>
         </div>
       </div>
       <div className="form-container">
-        <Form form={form}>
+        <Form form={form} onFinish={handleLogin}>
           <Form.Item name="userName" rules={[]}>
             <Input placeholder={"Tên đăng nhập"} size="large" />
           </Form.Item>

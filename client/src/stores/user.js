@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import request from "../utils/request";
 // Slice
 const slice = createSlice({
   name: "user",
   initialState: {
     user: null,
+    idImage: "",
   },
   reducers: {
     loginSuccess: (state, action) => {
@@ -12,11 +14,14 @@ const slice = createSlice({
     logoutSuccess: (state, action) => {
       state.user = null;
     },
+    saveIdImageResp: (state, action) => {
+      state.idImage = action.payload;
+    },
   },
 });
 export default slice.reducer;
 // Actions
-const { loginSuccess, logoutSuccess } = slice.actions;
+const { loginSuccess, logoutSuccess, saveIdImageResp } = slice.actions;
 
 export const login =
   ({ username, password }) =>
@@ -28,6 +33,21 @@ export const login =
       return console.error(e.message);
     }
   };
+
+export const getInfoIdImage =
+  ({ image }) =>
+  async (dispatch) => {
+    try {
+      const res = await request.post("http://127.0.0.1:5000/member", {
+        image,
+      });
+      console.log(res);
+      dispatch(saveIdImageResp({}));
+    } catch (e) {
+      return console.error(e.message);
+    }
+  };
+
 export const logout = () => async (dispatch) => {
   try {
     // const res = await api.post('/api/auth/logout/')
