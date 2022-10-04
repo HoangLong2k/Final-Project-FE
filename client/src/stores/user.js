@@ -6,43 +6,56 @@ const slice = createSlice({
   initialState: {
     user: null,
     idImage: "",
+    islogin: false,
   },
   reducers: {
     loginSuccess: (state, action) => {
-      state.user = action.payload;
+      state.user.islogin = action.payload;
     },
     logoutSuccess: (state, action) => {
       state.user = null;
     },
-    saveIdImageResp: (state, action) => {
+    saveIdImageRespAction: (state, action) => {
       state.idImage = action.payload;
     },
   },
 });
 export default slice.reducer;
 // Actions
-const { loginSuccess, logoutSuccess, saveIdImageResp } = slice.actions;
+const { loginSuccess, logoutSuccess } = slice.actions;
 
-export const login =
-  ({ username, password }) =>
+export const logIn =
+  ({ username, password }, callback) =>
   async (dispatch) => {
+    console.log(callback);
     try {
-      // const res = await api.post('/api/auth/login/', { username, password })
-      dispatch(loginSuccess({ username }));
+      const res = await request.post("http://127.0.0.1:3000/users/login", {
+        username,
+        password,
+      });
+      if (res.status === 200) {
+        console.log(1);
+        dispatch(loginSuccess(true));
+        callback();
+        return;
+      }
     } catch (e) {
       return console.error(e.message);
     }
   };
 
-export const getInfoIdImage =
-  ({ image }) =>
+export const signUp =
+  ({ username, password }) =>
   async (dispatch) => {
     try {
-      const res = await request.post("http://127.0.0.1:5000/member", {
-        image,
+      console.log(username, password);
+      const res = await request.post("http://127.0.0.1:3000/users/signup", {
+        username,
+        password,
       });
-      console.log(res);
-      dispatch(saveIdImageResp({}));
+      if (res.status === 200) {
+        dispatch(loginSuccess(true));
+      }
     } catch (e) {
       return console.error(e.message);
     }

@@ -1,30 +1,32 @@
 import React from "react";
-import { Login, Registration } from "./pages";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import Background from "../public/image/back.png";
-import "./App.less";
+import { useSelector } from "react-redux";
+
+import { Login, Registration } from "./pages";
 import Header from "./pages/Layout/Header.js";
 
-const RoutePaths = {
-  HOME: "/",
-  LOGIN: "/login",
-  REGISTRATION: "/registration",
-};
+import Background from "../public/image/back.png";
+import { RoutePaths } from "./utils/constant";
+import "./App.less";
+
 const App = () => {
+  const islogin = useSelector(({ user }) => {
+    return user.islogin;
+  });
+
   const routes = [
-    {
-      path: RoutePaths.HOME,
-      component: Registration,
-    },
-    {
-      path: RoutePaths.LOGIN,
-      component: Login,
-    },
     {
       path: RoutePaths.REGISTRATION,
       component: Registration,
+      index: false,
+    },
+    {
+      path: RoutePaths.QR,
+      component: Login,
+      index: false,
     },
   ];
+
   return (
     <div className="App">
       <div className="App-background">
@@ -35,30 +37,31 @@ const App = () => {
         />
       </div>
       <BrowserRouter>
-        <Routes>
-          {routes.map((route) => {
-            return (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={
-                  route.path !== RoutePaths.LOGIN ? (
-                    <>
-                      <div className="App-container">
-                        <Header />
-                        <div className="App-container-body">
-                          <route.component />
-                        </div>
+        {islogin ? (
+          <Routes>
+            {routes.map((route) => {
+              return (
+                <Route
+                  index={route.index}
+                  key={route.path}
+                  path={route.path}
+                  element={
+                    <div className="App-container">
+                      <Header />
+                      <div className="App-container-body">
+                        <route.component />
                       </div>
-                    </>
-                  ) : (
-                    <route.component />
-                  )
-                }
-              />
-            );
-          })}
-        </Routes>
+                    </div>
+                  }
+                />
+              );
+            })}
+          </Routes>
+        ) : (
+          <div className="App-container">
+            <Login />
+          </div>
+        )}
       </BrowserRouter>
     </div>
   );

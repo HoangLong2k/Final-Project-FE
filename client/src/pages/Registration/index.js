@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, DatePicker, Row, Col, Input } from "antd";
+import { useDispatch } from "react-redux";
+
 import { UploadFile } from "./components/Upload.js";
-import { getInfoIdImage } from "../../stores/user";
 
 import "./styles.less";
-import { useDispatch } from "react-redux";
 
 const Registration = () => {
   const acceptTypes = ["", "doc", "pdf", "png", "jpeg", "docx", "jpg", "tif"];
   const acceptType = acceptTypes.join(",.");
   const [validFile, setValidFile] = useState();
   const [invalidFile, setInValidFile] = useState(false);
-  const negative = useNavigate();
-  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const handleChangeFile = (name, files) => {
     console.log(files);
-    dispatch(getInfoIdImage(files));
+    // dispatch(getInfoIdImage(files));
     setInValidFile();
     // setFieldsValue({ [name]: files });
     // files &&
@@ -45,14 +43,6 @@ const Registration = () => {
     console.log(1);
   };
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/member", { mode: "no-cors" })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
-
   return (
     <div className="registration">
       <div className="form-booking-container">
@@ -69,7 +59,7 @@ const Registration = () => {
               lg={{ span: 12, offset: 0 }}
             >
               <div className="form-booking-title">
-                {"Vui lòng scan QR CMND"}
+                {"Đăng ký nhanh bằng cách scan QR CMND"}
               </div>
               <Form.Item>
                 <UploadFile

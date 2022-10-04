@@ -26,6 +26,9 @@ const Header = () => {
           className="card-title"
           level={2}
           style={{ color: "rgb(255 255 255)" }}
+          onClick={() => {
+            navigate({ pathname: "/login" });
+          }}
         >
           My WareHouse
         </Title>
