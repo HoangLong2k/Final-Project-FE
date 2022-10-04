@@ -13,7 +13,7 @@ module.exports = {
           password: hashedPassword,
         });
         await user.save();
-        res.send("sign-up-success"._doc);
+        sendToken(user, 200, res, "Signup-Success");
       } catch (err) {
         console.log(err);
         res.status(500);
@@ -27,17 +27,24 @@ module.exports = {
   },
   signIn: async (req, res) => {
     const { username, password } = req.body;
-    console.log(username, password);
     const user = await User.findOne({ username: username });
-    console.log(user);
     if (user === null) {
-      res.status(200);
       return res.send("Invalid-username-or-password.");
     }
     const rs = bcrypt.compareSync(password, user.password);
     if (rs === false) {
       return res.send("Invalid-username-or-password.");
     }
-    res.send("Sign in success");
+    sendToken(user, 200, res, "Login-Success");
   },
+};
+
+const sendToken = (user, statusCode, res, message) => {
+  const token = user.getSignedJwtToken();
+  res.status(statusCode).json({
+    message,
+    statusCode,
+    sucess: true,
+    token,
+  });
 };

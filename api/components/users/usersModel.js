@@ -1,15 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true,
-    },
-    password: {
-        type: String,
-        required: true
-    },
-
+  username: {
+    type: String,
+    required: [true, "Please provide username"],
+  },
+  password: {
+    type: String,
+    required: [true, "Please add a password"],
+    minlength: 6,
+  },
 });
 
-module.exports = mongoose.model('Users', userSchema);
+userSchema.methods.getSignedJwtToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: "100000s",
+  });
+};
+
+module.exports = mongoose.model("Users", userSchema);
