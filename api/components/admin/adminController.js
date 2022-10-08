@@ -1,10 +1,13 @@
-const Traffic = require("../traffic/trafficModel");
+const Registration = require("../registration/registrationModel");
+const UserModel = require("../users/usersModel");
 
 module.exports = {
   getData: async (req, res) => {
+    const userCurrent = await UserModel.findOne({
+      username: req.body.username,
+    });
     try {
-      const data = await Traffic.find();
-      res.json(data);
+      res.json(userCurrent.dataSubmitted);
     } catch (err) {
       res.json({ message: err });
     }

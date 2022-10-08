@@ -9,6 +9,7 @@ require("dotenv/config");
 
 const indexRouter = require("./routes/index");
 const { truncateSync } = require("fs");
+const PORT = process.env.PORT || 3002;
 
 const app = express();
 
@@ -25,8 +26,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", require("./components/users/usersRoute"));
-app.use("/admin", require("./components/admin/adminRoute"));
-app.use("/traffic", require("./components/traffic/trafficRoute"));
+app.use("/getAllDataSubmitted", require("./components/admin/adminRoute"));
+app.use(
+  "/registration",
+  require("./components/registration/retristrationRoute")
+);
 
 mongoose.connect(process.env.DB_CONNECTION, (error) => {
   if (error) console.log(error);
@@ -47,6 +51,10 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render("error");
+});
+
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
 });
 
 module.exports = app;

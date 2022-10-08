@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { Login, Registration } from "./pages";
+import { Login, Registration, Qr } from "./pages";
 import Header from "./pages/Layout/Header.js";
 
 import Background from "../public/image/back.png";
@@ -10,9 +10,7 @@ import { RoutePaths } from "./utils/constant";
 import "./App.less";
 
 const App = () => {
-  const islogin = useSelector(({ user }) => {
-    return user.islogin;
-  });
+  const islogin = JSON.parse(localStorage.getItem("username") || "{}");
 
   const routes = [
     {
@@ -22,6 +20,11 @@ const App = () => {
     },
     {
       path: RoutePaths.QR,
+      component: Qr,
+      index: false,
+    },
+    {
+      path: RoutePaths.LOGIN,
       component: Login,
       index: false,
     },

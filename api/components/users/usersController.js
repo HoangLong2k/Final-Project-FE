@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 
-const User = require("./usersModel");
+const UserModel = require("./usersModel");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -8,14 +8,13 @@ module.exports = {
     if (!res.locals.fail) {
       try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({
+        const user = new UserModel({
           username,
           password: hashedPassword,
         });
         await user.save();
-        sendToken(user, 200, res, "Signup-Success");
+        sendToken(user, 200, res, "Signup-success");
       } catch (err) {
-        console.log(err);
         res.status(500);
         res.render("error", { error: err });
       }
@@ -27,7 +26,7 @@ module.exports = {
   },
   signIn: async (req, res) => {
     const { username, password } = req.body;
-    const user = await User.findOne({ username: username });
+    const user = await UserModel.findOne({ username: username });
     if (user === null) {
       return res.send("Invalid-username-or-password.");
     }
@@ -35,7 +34,7 @@ module.exports = {
     if (rs === false) {
       return res.send("Invalid-username-or-password.");
     }
-    sendToken(user, 200, res, "Login-Success");
+    sendToken(user, 200, res, "Login-success");
   },
 };
 

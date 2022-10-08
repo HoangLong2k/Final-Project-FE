@@ -1,4 +1,5 @@
-import Login from "./Login/index.js";
-import Registration from "./Registration/index.js";
+import Login from "./Login";
+import Registration from "./Registration";
+import Qr from "./Qr";
 
-export { Login, Registration };
+export { Login, Registration, Qr };

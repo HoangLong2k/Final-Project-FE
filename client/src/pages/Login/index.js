@@ -34,10 +34,12 @@ const Login = () => {
     if (register) {
       return dispatch(signUp(value));
     }
-    return dispatch(logIn(value), () => {
-      console.log("callback");
-      navigate(RoutePaths.REGISTRATION);
-    });
+    return dispatch(
+      logIn(value, () => {
+        navigate(RoutePaths.REGISTRATION);
+        return;
+      })
+    );
   };
 
   return (
