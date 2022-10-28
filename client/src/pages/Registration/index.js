@@ -9,12 +9,13 @@ import {
   Select as AntSelect,
   Select,
 } from "antd";
+import moment from "moment";
 import { registration } from "../../stores/user";
 import { useDispatch, useSelector } from "react-redux";
 
 import { UploadFile } from "./components/Upload.js";
 import { useNavigate } from "react-router-dom";
-import { dateToString } from "../../utils/utils";
+import { getDataSubmitted, decodeQR } from "../../stores/user";
 
 import "./styles.less";
 import { RoutePaths } from "../../utils/constant";
@@ -42,7 +43,6 @@ const Registration = () => {
   ];
   const acceptType = acceptTypes.join(",.");
   const [validFile, setValidFile] = useState();
-  const [invalidFile, setInValidFile] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -52,23 +52,69 @@ const Registration = () => {
     return user.dataSubmitted;
   });
 
+  const dataQr = useSelector(({ user }) => {
+    return user.dataQr;
+  });
+
+  // ['072099000766', '', 'Đỗ Nhật Quang', '01101999', 'Nam', 'Khu Phố 3, TT. Tân Châu, Tân Châu, Tây Ninh', '23092022']
+
   useEffect(() => {
-    if (dataSubmitted) {
+    if (dataQr) {
+      console.log(
+        `${dataQr[6].slice(0, 2)}-${dataQr[6].slice(2, 4)}-${dataQr[6].slice(
+          4
+        )}`
+      );
       form.setFieldsValue({
-        ...dataSubmitted,
-        dob: undefined,
-        effectiveDate: undefined,
-        timeIn: undefined,
-        timeOut: undefined,
+        idNumber: dataQr[0],
+        owner: dataQr[2],
+        dob: moment(
+          `${dataQr[3].slice(2, 4)}-${dataQr[3].slice(0, 2)}-${dataQr[3].slice(
+            4
+          )}`
+        ),
+        effectiveDate: moment(
+          `${dataQr[6].slice(2, 4)}-${dataQr[6].slice(0, 2)}-${dataQr[6].slice(
+            4
+          )}`
+        ),
+      });
+    }
+  }, [dataQr]);
+
+  useEffect(() => {
+    setDisabled(false);
+    if (dataSubmitted?.length > 0) {
+      form.setFieldsValue({
+        ...dataSubmitted[0],
+        dob: moment(dataSubmitted[0].dob),
+        effectiveDate: moment(dataSubmitted[0].effectiveDate),
+        timeIn: moment(dataSubmitted[0].timeIn),
+        timeOut: moment(dataSubmitted[0].timeOut),
       });
       setDisabled(true);
+    } else {
+      form.resetFields();
+      setDisabled(false);
     }
   }, [dataSubmitted]);
 
+  useEffect(() => {
+    dispatch(getDataSubmitted());
+  }, []);
+
+  const role = JSON.parse(localStorage.getItem("role"));
+
+  useEffect(() => {
+    if (role === "admin") {
+      navigate(RoutePaths.ADMIN);
+    }
+  }, [role]);
+
   const handleChangeFile = (name, files) => {
-    console.log(files);
-    // dispatch(getInfoIdImage(files));
-    setInValidFile();
+    if (files[0].file) {
+      dispatch(decodeQR(files));
+    }
     // setFieldsValue({ [name]: files });
     // files &&
     //   files.map(item => {
@@ -94,17 +140,16 @@ const Registration = () => {
   const onFinish = (value) => {
     const formatValue = {
       ...value,
-      dob: dateToString(value.dob, "DD-MM-YYYY"),
-      effectiveDate: dateToString(value.effectiveDate, "DD-MM-YYYY"),
-      timeIn: dateToString(value.timeIn, "hh:mm DD-MM-YYYY"),
-      timeOut: dateToString(value.timeOut, "hh:mm DD-MM-YYYY"),
+      dob: value.dob.toString(),
+      effectiveDate: value.effectiveDate.toString(),
+      timeIn: value.timeIn.toString(),
+      timeOut: value.timeOut.toString(),
     };
     dispatch(
       registration(formatValue, () => {
         // navigate(RoutePaths.QR);
       })
     );
-    console.log(formatValue);
   };
 
   return (
@@ -138,7 +183,6 @@ const Registration = () => {
                   onChange={handleChangeFile}
                   multiple={false}
                   validFile={validFile}
-                  invalidFile={invalidFile}
                   setValidFile={setValidFile}
                   checkValidFile={checkValidFile}
                 />

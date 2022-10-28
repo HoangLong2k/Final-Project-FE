@@ -3,7 +3,7 @@ import { Image } from "antd";
 import { nanoid } from "nanoid";
 import CropImage from "./ImageCrop";
 import _keys from "lodash/keys";
-import { InstagramOutlined } from "@ant-design/icons";
+import { InstagramOutlined, CloseOutlined } from "@ant-design/icons";
 
 import "./styles.less";
 
@@ -51,7 +51,6 @@ export const UploadFile = ({
   multiple,
   validFile,
   setValidFile,
-  invalidFile,
   disabled,
   onChange,
   checkValidFile,
@@ -118,8 +117,8 @@ export const UploadFile = ({
         file: resizer,
         url: base64Data,
       };
+      setValidFile(transformImage);
       if (onChange) {
-        console.log(transformImage);
         return onChange(name, [transformImage]);
       }
     });
@@ -133,22 +132,14 @@ export const UploadFile = ({
       onDrop={handleDropFile}
       onDragOver={handleDragOverFile}
     >
-      {!validFile &&
-        (invalidFile ? (
-          <>
-            <div className="element-upload__label">
-              <InstagramOutlined style={{ fontSize: "40px" }} />
-              {"Try Again"}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="element-upload__icon">
-              <InstagramOutlined style={{ fontSize: "40px" }} />
-            </div>
-            <div className="element-upload__label">{label}</div>
-          </>
-        ))}
+      {!validFile && (
+        <>
+          <div className="element-upload__icon">
+            <InstagramOutlined style={{ fontSize: "40px" }} />
+          </div>
+          <div className="element-upload__label">{label}</div>
+        </>
+      )}
 
       {!cropVisible ? (
         <input
@@ -185,13 +176,7 @@ export const UploadFile = ({
 export default UploadFile;
 
 const FileDetail = (props) => {
-  const { fileDetail, reUploadFile, handlRemoveFile } = props;
-
-  const handleReuploadFile = (event) => {
-    event.stopPropagation();
-
-    reUploadFile();
-  };
+  const { fileDetail } = props;
 
   return (
     <div
@@ -202,16 +187,6 @@ const FileDetail = (props) => {
         <div className="wrapperThumbnail">
           <Image src={fileDetail.url} />
         </div>
-      </div>
-      <div className="btn-reupload" id="btn-reupload">
-        <span onClick={handleReuploadFile}>
-          <div className="btn-reupload__icon"></div>
-        </span>
-      </div>
-      <div className="btn-remove">
-        <span onClick={handlRemoveFile}>
-          <div className="btn-remove__icon" id="btn-remove"></div>
-        </span>
       </div>
     </div>
   );

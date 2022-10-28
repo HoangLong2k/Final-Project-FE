@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import { Login, Registration, Qr } from "./pages";
+import { Login, Registration, Qr, Admin } from "./pages";
 import Header from "./pages/Layout/Header.js";
 
 import Background from "../public/image/back.png";
@@ -16,17 +16,18 @@ const App = () => {
     {
       path: RoutePaths.REGISTRATION,
       component: Registration,
-      index: false,
     },
     {
       path: RoutePaths.QR,
       component: Qr,
-      index: false,
     },
     {
       path: RoutePaths.LOGIN,
       component: Login,
-      index: false,
+    },
+    {
+      path: RoutePaths.ADMIN,
+      component: Admin,
     },
   ];
 
@@ -50,7 +51,7 @@ const App = () => {
                   path={route.path}
                   element={
                     <div className="App-container">
-                      <Header />
+                      {route.path !== RoutePaths.LOGIN && <Header />}
                       <div className="App-container-body">
                         <route.component />
                       </div>

@@ -32,14 +32,20 @@ const Login = () => {
 
   const handleLogin = (value) => {
     if (register) {
-      return dispatch(signUp(value));
+      dispatch(
+        signUp({ ...value, role: "user" }, () => {
+          navigate(RoutePaths.REGISTRATION);
+        })
+      );
+      return;
+    } else {
+      dispatch(
+        logIn({ ...value, role: "user" }, () => {
+          navigate(RoutePaths.REGISTRATION);
+        })
+      );
+      return;
     }
-    return dispatch(
-      logIn(value, () => {
-        navigate(RoutePaths.REGISTRATION);
-        return;
-      })
-    );
   };
 
   return (

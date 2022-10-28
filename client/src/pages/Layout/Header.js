@@ -11,16 +11,24 @@ const { Title } = Typography;
 
 const Header = () => {
   const [active, setActive] = useState("Registration");
+  const [role, setRole] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const NAVBAR = [
     {
       title: "Registration",
       path: "/registration",
+      role: "user",
     },
     {
       title: "QR",
       path: "/qr",
+      role: "user",
+    },
+    {
+      title: "Admin",
+      path: "/admin",
+      role: "admin",
     },
   ];
 
@@ -29,18 +37,18 @@ const Header = () => {
   });
 
   useEffect(() => {
-    dispatch(getDataSubmitted());
+    setRole(JSON.parse(localStorage.getItem("role")));
   }, []);
 
-  useEffect(() => {
-    if (dataSubmitted) {
-      setActive("QR");
-      navigate({ pathname: "/qr" });
-    } else {
-      setActive("Registration");
-      navigate({ pathname: "/registration" });
-    }
-  }, [dataSubmitted]);
+  // useEffect(() => {
+  //   if (dataSubmitted) {
+  //     setActive("QR");
+  //     navigate({ pathname: "/qr" });
+  //   } else {
+  //     setActive("Registration");
+  //     navigate({ pathname: "/registration" });
+  //   }
+  // }, [dataSubmitted]);
 
   return (
     <div className="header-container">
@@ -48,7 +56,6 @@ const Header = () => {
         <Title
           className="card-title"
           level={2}
-          style={{ color: "rgb(255 255 255)" }}
           onClick={() => {
             navigate({ pathname: "/login" });
           }}
@@ -66,6 +73,7 @@ const Header = () => {
                 setActive(item.title);
                 navigate({ pathname: item.path });
               }}
+              hidden={role !== item.role}
             >
               {item.title}
             </div>

@@ -11,7 +11,6 @@ export const toggleLoading = (value) => {
 };
 
 const Loading = () => {
-  console.log(1);
   const [isLoading, setIsLoading] = useState(false);
   const [count, setCount] = useState(0);
 
@@ -22,7 +21,6 @@ const Loading = () => {
       setCount((previous) => (previous > 0 ? previous - 1 : 0));
     }
   };
-  console.log(isLoading);
   useEffect(() => {
     if (count > 0) {
       !isLoading && setIsLoading(true);

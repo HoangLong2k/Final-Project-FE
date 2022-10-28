@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import QRCode from "react-qr-code";
+import { getDataSubmitted } from "../../stores/user";
 
 import "./styles.less";
 
 const Qr = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDataSubmitted());
+  }, []);
+
   const dataSubmitted = useSelector(({ user }) => {
-    return user.dataSubmitted;
+    return user.dataSubmitted[0];
   });
 
   return (
@@ -18,12 +25,14 @@ const Qr = () => {
       </div>
       <div className="qr-card-container">
         <div className="qr-card-detail">
-          <QRCode
-            size={256}
-            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-            value={Object.values(dataSubmitted || {}).join("|")}
-            viewBox={`0 0 256 256`}
-          />
+          {dataSubmitted && (
+            <QRCode
+              size={256}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              value={Object.values(dataSubmitted || {}).join("|")}
+              viewBox={`0 0 256 256`}
+            />
+          )}
         </div>
       </div>
     </div>

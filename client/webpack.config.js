@@ -1,10 +1,14 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// import dotenv from "dotenv";
+require("dotenv").config({ path: "./.env" });
 
-const { BASE_PATH } = process.env;
+const { BASE_PATH, APPLICATION_API } = process.env;
 
 const globalEnv = {
   BASE_PATH: BASE_PATH === undefined || BASE_PATH === "" ? "/ekyc/" : BASE_PATH,
+  APPLICATION_API: APPLICATION_API || "localhost:3000",
 };
 
 module.exports = {
@@ -43,6 +47,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       templateParameters: { ...globalEnv },
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
     }),
   ],
   resolve: {
