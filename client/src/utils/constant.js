@@ -3,4 +3,5 @@ export const RoutePaths = {
   REGISTRATION: "/registration",
   QR: "/qr",
   ADMIN: "/admin",
+  DASHBOARD: "/",
 };

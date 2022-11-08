@@ -56,7 +56,11 @@ const Login = () => {
       <div className="img-container" ref={ref}>
         <div className="img-container-title">
           <Title
-            style={{ color: "#1890ff", fontSize: "60px", textAlign: "center" }}
+            style={{
+              color: "rgb(65, 84, 102)",
+              fontSize: "50px",
+              textAlign: "center",
+            }}
           >
             LUẬN VĂN TỐT NGHIỆP
           </Title>
@@ -64,10 +68,9 @@ const Login = () => {
 
         <div>
           <Title
-            style={{ color: "#1890ff", fontSize: "30px", textAlign: "center" }}
+            style={{ color: "rgb(65, 84, 102)", textAlign: "center" }}
             level={3}
-          ></Title>
-          <Title style={{ color: "#1890ff", textAlign: "center" }} level={3}>
+          >
             GVHD: Ths. Đinh Quốc Hùng
           </Title>
         </div>

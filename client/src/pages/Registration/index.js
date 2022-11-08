@@ -10,6 +10,7 @@ import {
   Select,
 } from "antd";
 import moment from "moment";
+
 import { registration } from "../../stores/user";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -23,7 +24,7 @@ import { RoutePaths } from "../../utils/constant";
 const { Option } = AntSelect;
 
 const Registration = () => {
-  const acceptTypes = ["", "doc", "pdf", "png", "jpeg", "docx", "jpg", "tif"];
+  const acceptTypes = ["", "png", "jpeg", "jpg", "heic"];
   const validateMessages = {
     required: "Vui lòng nhập thông tin",
   };
@@ -60,11 +61,6 @@ const Registration = () => {
 
   useEffect(() => {
     if (dataQr) {
-      console.log(
-        `${dataQr[6].slice(0, 2)}-${dataQr[6].slice(2, 4)}-${dataQr[6].slice(
-          4
-        )}`
-      );
       form.setFieldsValue({
         idNumber: dataQr[0],
         owner: dataQr[2],

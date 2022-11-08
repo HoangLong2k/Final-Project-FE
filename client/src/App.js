@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import { Login, Registration, Qr, Admin } from "./pages";
+import { Login, Registration, Qr, Admin, Dashboard } from "./pages";
 import Header from "./pages/Layout/Header.js";
 
 import Background from "../public/image/back.png";
@@ -28,6 +28,10 @@ const App = () => {
     {
       path: RoutePaths.ADMIN,
       component: Admin,
+    },
+    {
+      path: RoutePaths.DASHBOARD,
+      component: Dashboard,
     },
   ];
 

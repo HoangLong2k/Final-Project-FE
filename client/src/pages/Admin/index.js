@@ -20,8 +20,6 @@ const Admin = () => {
       });
   });
 
-  console.log(dataSourceAdmin);
-
   const columns = [
     { title: "Họ tên", dataIndex: "owner", key: "owner" },
     { title: "CMND", dataIndex: "idNumber", key: "idNumber" },

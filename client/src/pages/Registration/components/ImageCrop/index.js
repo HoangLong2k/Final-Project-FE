@@ -198,15 +198,6 @@ const CropImage = ({
               </div>
               <div className="modal-btn">
                 <Button
-                  danger
-                  className="btn-cancel"
-                  onClick={handleSkipModal}
-                  name="btn-cancel"
-                >
-                  {/* {t('verify.account.upload.crop.btn.skip', '')} */}
-                  {"Skip"}
-                </Button>
-                <Button
                   type="primary"
                   className="btn-confirm"
                   onClick={handleConfirmModal}
