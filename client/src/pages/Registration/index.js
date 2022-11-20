@@ -8,6 +8,7 @@ import {
   Input,
   Select as AntSelect,
   Select,
+  InputNumber,
 } from "antd";
 import moment from "moment";
 
@@ -57,8 +58,6 @@ const Registration = () => {
     return user.dataQr;
   });
 
-  // ['072099000766', '', 'Đỗ Nhật Quang', '01101999', 'Nam', 'Khu Phố 3, TT. Tân Châu, Tân Châu, Tây Ninh', '23092022']
-
   useEffect(() => {
     if (dataQr) {
       form.setFieldsValue({
@@ -81,6 +80,7 @@ const Registration = () => {
   useEffect(() => {
     setDisabled(false);
     if (dataSubmitted?.length > 0) {
+      console.log(dataSubmitted);
       form.setFieldsValue({
         ...dataSubmitted[0],
         dob: moment(dataSubmitted[0].dob),
@@ -111,16 +111,6 @@ const Registration = () => {
     if (files[0].file) {
       dispatch(decodeQR(files));
     }
-    // setFieldsValue({ [name]: files });
-    // files &&
-    //   files.map(item => {
-    //     const imageBase64 = item.url.split(',')[1];
-    //     return dispatch(
-    //       importOCRAction({ imageBase64, face: 2 }, error => {
-    //         return error ? showError(error) : setValidFile(item);
-    //       }),
-    //     );
-    //   });
   };
 
   const getExtension = (filename) =>
@@ -181,6 +171,7 @@ const Registration = () => {
                   validFile={validFile}
                   setValidFile={setValidFile}
                   checkValidFile={checkValidFile}
+                  disabled={disabled}
                 />
               </Form.Item>
               <Form.Item
@@ -340,6 +331,23 @@ const Registration = () => {
                 <Input
                   size="large"
                   placeholder="Vui lòng nhập biển số xe"
+                  disabled={disabled}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Số người trên xe"
+                name="amount"
+                rules={[
+                  {
+                    required: true,
+                  },
+                ]}
+              >
+                <InputNumber
+                  min={1}
+                  max={10}
+                  size="large"
+                  placeholder="Vui lòng chọn số người"
                   disabled={disabled}
                 />
               </Form.Item>

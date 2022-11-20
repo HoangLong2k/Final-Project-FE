@@ -24,7 +24,7 @@ const Admin = () => {
     { title: "Họ tên", dataIndex: "owner", key: "owner" },
     { title: "CMND", dataIndex: "idNumber", key: "idNumber" },
     { title: "SĐT", dataIndex: "phoneNumber", key: "phoneNumber" },
-    { title: "Ngày đang ký", dataIndex: "effectiveDate", key: "effectiveDate" },
+    { title: "Ngày đăng ký", dataIndex: "effectiveDate", key: "effectiveDate" },
     { title: "Biển số", dataIndex: "trafficNumber", key: "trafficNumber" },
     {
       title: "Loại phương tiện",
